@@ -8,8 +8,8 @@ import (
 
 type User struct {
 	Model
-	UserName string `gorm:"userName"`
-	FullName string `gorm:"fullName"`
+	UserName string `gorm:"user_name"`
+	FullName string `gorm:"full_name"`
 	Password string `gorm:"password"`
 }
 

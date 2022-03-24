@@ -21,14 +21,17 @@ import (
 )
 
 func main() {
+	// loading the configuration
 	cfg, err := config.LoadConfig(".")
 	if err != nil {
 		fmt.Printf("failed to load configuration: %s\n", err.Error())
 		os.Exit(1)
 	}
 
+	// creating new logger from config
 	l := logger.NewLogger(cfg)
 
+	// creating mysql client
 	conn, err := gorm.Open(mysql.Open(cfg.DB_DSN), &gorm.Config{
 		SkipDefaultTransaction: true,
 	})
@@ -37,6 +40,7 @@ func main() {
 		os.Exit(1)
 	}
 
+	// initializing all services
 	jwtSvc := pkg.NewJWTService(*cfg, l)
 	repo := auth.NewRepository(conn, l)
 	srv := auth.NewService(l, repo, *cfg, jwtSvc)
